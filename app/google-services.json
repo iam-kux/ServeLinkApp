@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "81967827986",
+    "firebase_url": "https://shuffle-90cb7-default-rtdb.firebaseio.com",
+    "project_id": "shuffle-90cb7",
+    "storage_bucket": "shuffle-90cb7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81967827986:android:583120d3ec662961a39ccb",
+        "android_client_info": {
+          "package_name": "com.splinesoft.servelinkapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81967827986-kifvn9mgebsd4dnd80vt7fvp0dvuh4k7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiU6o__RKFd5g5C_-gWIc5extGQDYjCSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81967827986-kifvn9mgebsd4dnd80vt7fvp0dvuh4k7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

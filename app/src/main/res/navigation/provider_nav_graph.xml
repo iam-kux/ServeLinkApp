@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/provider_nav_graph"
+    app:startDestination="@id/navigation_provider_dashboard">
+
+    <fragment
+        android:id="@+id/navigation_provider_dashboard"
+        android:name="com.splinesoft.servelinkapp.fragments.ProviderDashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_provider_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_provider_services"
+        android:name="com.splinesoft.servelinkapp.fragments.ProviderServicesFragment"
+        android:label="Services"
+        tools:layout="@layout/fragment_provider_services" />
+
+    <fragment
+        android:id="@+id/navigation_messages"
+        android:name="com.splinesoft.servelinkapp.fragments.MessagesFragment"
+        android:label="Messages"
+        tools:layout="@layout/fragment_messages" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.splinesoft.servelinkapp.fragments.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

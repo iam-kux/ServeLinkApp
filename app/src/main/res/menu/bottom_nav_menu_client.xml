@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_client_home"
+        android:icon="@drawable/baseline_explore_24"
+        android:title="Home" />
+    <item
+        android:id="@+id/navigation_client_bookings"
+        android:icon="@drawable/book_svgrepo_com"
+        android:title="Bookings" />
+    <item
+        android:id="@+id/navigation_messages"
+        android:icon="@drawable/chat_round_unread_svgrepo_com"
+        android:title="Messages" />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/baseline_person_24"
+        android:title="Profile" />
+</menu>
