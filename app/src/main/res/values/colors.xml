@@ -1,10 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="light_grey">#F5F5F5</color>
-    <color name="text_grey">#666666</color>
-    <color name="accent_grey">#E0E0E0</color>
+    <!-- Primary Design System -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#FF000000</color>
+    <color name="primary_variant">#FF1A1A1A</color>
+    <color name="on_primary">#FFFFFFFF</color>
+    <color name="background">#FFFFFFFF</color>
+    <color name="surface">#FFF8F8F8</color>
+    <color name="surface_variant">#FFF0F0F0</color>
+    <color name="on_surface">#FF111111</color>
+    <color name="accent">#FFE5E5E5</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#FF111111</color>
+    <color name="text_secondary">#FF666666</color>
+    <color name="text_tertiary">#FF999999</color>
+    <color name="text_hint">#FFAAAAAA</color>
+    <color name="text_on_dark">#FFFFFFFF</color>
+    <color name="text_color">@color/text_primary</color>
+    <color name="text_grey">@color/text_secondary</color>
+    <color name="text_muted">@color/text_tertiary</color>
+
+    <!-- UI Element Colors -->
+    <color name="divider">#FFE5E5E5</color>
+    <color name="card_background">#FFFFFFFF</color>
+    <color name="card_stroke">#FFF0F0F0</color>
+    <color name="input_background">#FFF8F8F8</color>
+    <color name="input_stroke">#FFE0E0E0</color>
+    <color name="ripple_dark">#1A000000</color>
+    <color name="ripple_light">#1AFFFFFF</color>
+    <color name="overlay">#80000000</color>
+    <color name="shimmer_base">#FFF0F0F0</color>
+    <color name="shimmer_highlight">#FFFAFAFA</color>
+    <color name="border_color">@color/divider</color>
+    <color name="grey_background">@color/surface</color>
+    <color name="accent_grey">#FFCCCCCC</color>
+    <color name="light_grey">#FFF5F5F5</color>
+
+    <!-- Status Colors -->
+    <color name="status_success">#FF2E7D32</color>
+    <color name="status_warning">#FFF57F17</color>
+    <color name="status_error">#FFC62828</color>
+    <color name="status_info">#FF1565C0</color>
+    <color name="status_pending">#FFFFA000</color>
+    <color name="status_active">#FF2E7D32</color>
+    <color name="status_completed">#FF1B5E20</color>
+    <color name="status_cancelled">#FFB71C1C</color>
+
+    <!-- Rating -->
+    <color name="star_filled">#FFFFC107</color>
+    <color name="star_empty">#FFE0E0E0</color>
+
+    <!-- Chat -->
+    <color name="chat_sent_bg">#FF000000</color>
+    <color name="chat_sent_text">#FFFFFFFF</color>
+    <color name="chat_received_bg">#FFF0F0F0</color>
+    <color name="chat_received_text">#FF111111</color>
+    <color name="online_indicator">#FF4CAF50</color>
+    <color name="offline_indicator">#FF9E9E9E</color>
+
+    <!-- Bottom Navigation -->
+    <color name="nav_selected">#FF000000</color>
+    <color name="nav_unselected">#FF999999</color>
+    <color name="nav_inactive">@color/nav_unselected</color>
+
+    <!-- Transparent -->
     <color name="transparent">#00000000</color>
-    <color name="grey_background">#FAFAFA</color>
 </resources>

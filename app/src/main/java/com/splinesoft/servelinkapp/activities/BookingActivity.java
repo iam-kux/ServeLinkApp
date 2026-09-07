@@ -72,14 +72,14 @@ public class BookingActivity extends AppCompatActivity {
 
         Booking booking = new Booking(bookingId, clientId, providerId, serviceId, date, time, Constants.STATUS_PENDING);
 
-        FirebaseHelper.getFirestore().collection(Constants.BOOKINGS_REF).document(bookingId)
-                .set(booking)
+        FirebaseHelper.getInstance().getBookingRef(bookingId)
+                .setValue(booking)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(this, "Booking Confirmed!", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(this, "Booking Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Booking Failed: " + (task.getException() != null ? task.getException().getMessage() : "Unknown error"), Toast.LENGTH_SHORT).show();
                         btnConfirm.setEnabled(true);
                     }
                 });

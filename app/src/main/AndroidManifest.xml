@@ -2,7 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
     <application
+        android:name=".ServeLinkApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -11,9 +25,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ServeLinkApp">
-        
+
+        <!-- Google Maps API Key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <!-- FCM Service -->
+        <service
+            android:name=".services.FCMService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- Splash & Auth Activities -->
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".ui.auth.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,15 +50,41 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.OnboardingActivity" android:exported="false" />
-        <activity android:name=".activities.LoginActivity" android:exported="false" />
-        <activity android:name=".activities.SignupActivity" android:exported="false" />
-        <activity android:name=".activities.ClientMainActivity" android:exported="false" />
-        <activity android:name=".activities.ProviderMainActivity" android:exported="false" />
-        <activity android:name=".activities.ServiceDetailActivity" android:exported="false" />
-        <activity android:name=".activities.BookingActivity" android:exported="false" />
-        <activity android:name=".activities.ChatActivity" android:exported="false" />
-        <activity android:name=".activities.AddServiceActivity" android:exported="false" />
+        <activity android:name=".ui.auth.OnboardingActivity" android:exported="false" />
+        <activity android:name=".ui.auth.RoleSelectionActivity" android:exported="false" />
+        <activity android:name=".ui.auth.LoginActivity" android:exported="false" />
+        <activity android:name=".ui.auth.RegisterActivity" android:exported="false" />
+        <activity android:name=".ui.auth.ForgotPasswordActivity" android:exported="false" />
+        <activity android:name=".ui.auth.ProfileSetupActivity" android:exported="false" />
+
+        <!-- Client Activities -->
+        <activity android:name=".ui.client.ClientMainActivity" android:exported="false" />
+        <activity android:name=".ui.client.PostJobActivity" android:exported="false" />
+        <activity android:name=".ui.client.JobDetailActivity" android:exported="false" />
+        <activity android:name=".ui.client.ApplicationsActivity" android:exported="false" />
+        <activity android:name=".ui.client.ProviderDetailActivity" android:exported="false" />
+
+        <!-- Provider Activities -->
+        <activity android:name=".ui.provider.ProviderMainActivity" android:exported="false" />
+        <activity android:name=".ui.provider.ApplyJobActivity" android:exported="false" />
+        <activity android:name=".ui.provider.EditProfileActivity" android:exported="false" />
+        <activity android:name=".ui.provider.PortfolioActivity" android:exported="false" />
+
+        <!-- Chat Activity -->
+        <activity android:name=".ui.chat.ChatActivity" android:exported="false" />
+
+        <!-- Common Activities -->
+        <activity android:name=".ui.common.BookingActivity" android:exported="false" />
+        <activity android:name=".ui.common.SettingsActivity" android:exported="false" />
+        <activity android:name=".ui.common.SearchActivity" android:exported="false" />
+        <activity android:name=".ui.common.NotificationsActivity" android:exported="false" />
+        <activity android:name=".ui.common.ReviewsActivity" android:exported="false" />
+        <activity android:name=".ui.common.WalletActivity" android:exported="false" />
+        <activity android:name=".ui.common.SavedItemsActivity" android:exported="false" />
+        <activity android:name=".ui.common.MapActivity" android:exported="false" />
+
+        <!-- Admin Activities -->
+        <activity android:name=".ui.admin.AdminMainActivity" android:exported="false" />
 
     </application>
 

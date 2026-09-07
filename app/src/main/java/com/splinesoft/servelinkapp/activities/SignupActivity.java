@@ -78,8 +78,7 @@ public class SignupActivity extends AppCompatActivity {
                         String userId = FirebaseHelper.getAuth().getCurrentUser().getUid();
                         User user = new User(userId, name, email, phone, finalRole);
 
-                        FirebaseHelper.getFirestore().collection(Constants.USERS_REF)
-                                .document(userId).set(user)
+                        FirebaseHelper.getInstance().getUserRef(userId).setValue(user)
                                 .addOnCompleteListener(dbTask -> {
                                     if (dbTask.isSuccessful()) {
                                         startActivity(new Intent(SignupActivity.this, MainActivity.class));
@@ -91,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
                                     }
                                 });
                     } else {
-                        Toast.makeText(SignupActivity.this, "Registration Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, "Registration Failed: " + (task.getException() != null ? task.getException().getMessage() : "Unknown error"), Toast.LENGTH_SHORT).show();
                         btnSignup.setEnabled(true);
                         btnSignup.setText("Sign Up");
                     }

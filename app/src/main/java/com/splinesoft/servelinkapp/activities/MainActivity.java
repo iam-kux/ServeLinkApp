@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.firebase.database.DataSnapshot;
 import com.splinesoft.servelinkapp.utils.Constants;
 import com.splinesoft.servelinkapp.utils.FirebaseHelper;
 
@@ -28,12 +29,17 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         
-        String userId = FirebaseHelper.getAuth().getCurrentUser().getUid();
-        FirebaseHelper.getFirestore().collection(Constants.USERS_REF).document(userId)
+        String userId = FirebaseHelper.getInstance().getCurrentUserId();
+        if (userId == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+        FirebaseHelper.getInstance().getUserRef(userId)
                 .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        String role = documentSnapshot.getString("role");
+                .addOnSuccessListener(dataSnapshot -> {
+                    if (dataSnapshot.exists()) {
+                        String role = dataSnapshot.child("role").getValue(String.class);
                         if (Constants.ROLE_PROVIDER.equals(role)) {
                             startActivity(new Intent(MainActivity.this, ProviderMainActivity.class));
                         } else {

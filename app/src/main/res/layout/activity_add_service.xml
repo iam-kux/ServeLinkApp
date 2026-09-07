@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@drawable/edit_text_bg"
-            android:src="@drawable/baseline_camera_alt_24"
+            android:src="@drawable/camera_minimalistic_svgrepo_com"
             android:scaleType="center"
             app:tint="@color/text_grey"
             android:layout_marginBottom="24dp"/>

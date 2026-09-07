@@ -1,73 +1,105 @@
 package com.splinesoft.servelinkapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.splinesoft.servelinkapp.R;
 import com.splinesoft.servelinkapp.adapters.BookingAdapter;
 import com.splinesoft.servelinkapp.models.Booking;
+import com.splinesoft.servelinkapp.ui.provider.viewmodel.ProviderDashboardViewModel;
 import com.splinesoft.servelinkapp.utils.Constants;
-import com.splinesoft.servelinkapp.utils.FirebaseHelper;
+
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 
 public class ProviderDashboardFragment extends Fragment {
 
+    private TextView tvTotalJobs;
+    private TextView tvEarnings;
     private RecyclerView rvProviderBookings;
-    private TextView tvTotalJobs, tvEarnings;
-    private BookingAdapter bookingAdapter;
-    private List<Booking> bookingList;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_provider_dashboard, container, false);
+    private ProviderDashboardViewModel viewModel;
+    private BookingAdapter adapter;
 
-        tvTotalJobs = root.findViewById(R.id.tvTotalJobs);
-        tvEarnings = root.findViewById(R.id.tvEarnings);
-        rvProviderBookings = root.findViewById(R.id.rvProviderBookings);
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_provider_dashboard, container, false);
 
-        bookingList = new ArrayList<>();
-        // Mock data
-        bookingList.add(new Booking("1", "client1", "provider1", "service1", "12/12/2026", "10:00 AM", Constants.STATUS_PENDING));
-        bookingList.add(new Booking("2", "client2", "provider1", "service2", "14/12/2026", "02:00 PM", Constants.STATUS_ACCEPTED));
-
-        bookingAdapter = new BookingAdapter(bookingList, true, new BookingAdapter.OnBookingActionListener() {
-            @Override
-            public void onAccept(Booking booking) {
-                updateBookingStatus(booking, Constants.STATUS_ACCEPTED);
-            }
-
-            @Override
-            public void onDecline(Booking booking) {
-                updateBookingStatus(booking, Constants.STATUS_DECLINED);
-            }
-        });
+        tvTotalJobs = view.findViewById(R.id.tvTotalJobs);
+        tvEarnings = view.findViewById(R.id.tvEarnings);
+        rvProviderBookings = view.findViewById(R.id.rvProviderBookings);
 
         rvProviderBookings.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvProviderBookings.setAdapter(bookingAdapter);
 
-        tvTotalJobs.setText("12");
-        tvEarnings.setText("$450");
-
-        return root;
+        return view;
     }
 
-    private void updateBookingStatus(Booking booking, String status) {
-        booking.setStatus(status);
-        bookingAdapter.notifyDataSetChanged();
-        
-        // Disable real firestore update to avoid crashing the mockup
-        /*
-        FirebaseHelper.getFirestore().collection(Constants.BOOKINGS_REF).document(booking.getBookingId())
-                .update("status", status)
-                .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Booking " + status, Toast.LENGTH_SHORT).show());
-        */
-        Toast.makeText(getContext(), "Booking " + status, Toast.LENGTH_SHORT).show();
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel = new ViewModelProvider(this).get(ProviderDashboardViewModel.class);
+        observeViewModel();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.loadDashboardData();
+    }
+
+    private void observeViewModel() {
+        viewModel.getTotalJobs().observe(getViewLifecycleOwner(), total -> 
+                tvTotalJobs.setText(String.valueOf(total)));
+
+        viewModel.getEarnings().observe(getViewLifecycleOwner(), amount -> 
+                tvEarnings.setText(String.format(Locale.getDefault(), "$%.0f", amount)));
+
+        viewModel.getBookings().observe(getViewLifecycleOwner(), list -> {
+            if (list == null) list = new ArrayList<>();
+            adapter = new BookingAdapter(list, true, new BookingAdapter.OnBookingActionListener() {
+                @Override
+                public void onAccept(Booking booking) {
+                    viewModel.updateBookingStatus(booking, Constants.BOOKING_STATUS_ACCEPTED);
+                }
+
+                @Override
+                public void onDecline(Booking booking) {
+                    viewModel.updateBookingStatus(booking, Constants.BOOKING_STATUS_CANCELLED);
+                }
+
+                @Override
+                public void onItemClick(Booking booking) {
+                    try {
+                        Intent intent = new Intent(getContext(), 
+                                Class.forName("com.splinesoft.servelinkapp.ui.common.BookingActivity"));
+                        intent.putExtra(Constants.EXTRA_BOOKING_ID, booking.getBookingId());
+                        startActivity(intent);
+                    } catch (ClassNotFoundException e) {
+                        Toast.makeText(getContext(), "Booking details screen not found", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            rvProviderBookings.setAdapter(adapter);
+        });
+
+        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null && !msg.isEmpty()) {
+                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

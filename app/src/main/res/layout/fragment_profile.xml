@@ -10,118 +10,196 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center_horizontal">
+        android:padding="24dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Profile"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:layout_marginBottom="32dp" />
+            android:layout_marginBottom="24dp" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            app:cardCornerRadius="60dp"
-            app:cardElevation="4dp"
-            app:strokeWidth="2dp"
-            app:strokeColor="@color/light_grey"
-            android:layout_marginBottom="16dp">
-
-            <ImageView
-                android:id="@+id/ivProfileImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="User Name"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_marginBottom="4dp" />
-
-        <TextView
-            android:id="@+id/tvRole"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Role"
-            android:textColor="@color/text_grey"
-            android:layout_marginBottom="32dp" />
-
+        <!-- User Information Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="@drawable/edit_text_bg"
-            android:layout_marginBottom="16dp"
-            android:gravity="center_vertical">
-            
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_dialog_email"
-                app:tint="@color/text_grey"
-                android:layout_marginEnd="16dp"/>
-            
-            <TextView
-                android:id="@+id/tvEmail"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="32dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:cardCornerRadius="40dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/border_color">
+
+                <ImageView
+                    android:id="@+id/ivProfileImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ima1" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="user@example.com"
-                android:textColor="@color/black" />
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User Name"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/tvRole"
+                    android:layout_marginVertical="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/round100"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:text="Service Provider"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="user@example.com"
+                    android:layout_marginTop="2dp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
+        <!-- Menu Action Rows -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:background="@drawable/edit_text_bg"
-            android:layout_marginBottom="32dp"
-            android:gravity="center_vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="32dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_call"
-                app:tint="@color/text_grey"
-                android:layout_marginEnd="16dp"/>
-
-            <TextView
-                android:id="@+id/tvPhone"
+            <!-- Edit Profile -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEditProfile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="+263 77 123 4567"
-                android:textColor="@color/black" />
+                android:layout_height="56dp"
+                android:text="Edit Profile Details"
+                android:gravity="start|center_vertical"
+                app:icon="@drawable/customersmajor_svgrepo_com"
+                app:iconTint="@color/black"
+                app:iconPadding="10dp"
+                android:paddingHorizontal="20dp"
+                android:background="@drawable/round100"
+                app:backgroundTint="#eaeaea"
+                app:iconGravity="textStart"
+                android:textColor="@color/black"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Portfolio (Provider Only) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPortfolio"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Manage Portfolio"
+                android:gravity="start|center_vertical"
+                app:icon="@drawable/baseline_camera_alt_24"
+                app:iconTint="@color/black"
+                app:iconGravity="textStart"
+                android:textColor="@color/black"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
+
+            <!-- Wallet -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnWallet"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="My Wallet &amp; Earnings"
+                android:gravity="start|center_vertical"
+                app:icon="@drawable/dollar_symbol_svgrepo_com"
+                app:iconTint="@color/black"
+                app:iconPadding="10dp"
+                android:paddingHorizontal="20dp"
+                android:background="@drawable/round100"
+                app:backgroundTint="#eaeaea"
+                app:iconGravity="textStart"
+                android:textColor="@color/black"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Saved Items -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSavedItems"
+                app:iconPadding="10dp"
+                android:paddingHorizontal="20dp"
+                android:background="@drawable/round100"
+                app:backgroundTint="#eaeaea"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Saved Items"
+                android:gravity="start|center_vertical"
+                app:icon="@drawable/bookmark_svgrepo_com"
+                app:iconTint="@color/black"
+                app:iconGravity="textStart"
+                android:textColor="@color/black"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Settings -->
+            <com.google.android.material.button.MaterialButton
+                app:iconPadding="10dp"
+                android:paddingHorizontal="20dp"
+                android:background="@drawable/round100"
+                app:backgroundTint="#eaeaea"
+                android:id="@+id/btnSettings"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Settings &amp; Safety"
+                android:gravity="start|center_vertical"
+                app:icon="@drawable/settings_svgrepo_com"
+                app:iconTint="@color/black"
+                app:iconGravity="textStart"
+                android:textColor="@color/black"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_marginBottom="8dp" />
+
         </LinearLayout>
 
+        <!-- Spacer -->
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
 
+        <!-- Log Out Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:text="Log Out"
-            android:textAllCaps="false"
-            app:cornerRadius="100dp"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:cornerRadius="28dp"
             android:backgroundTint="@color/black"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:layout_marginBottom="24dp"/>
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
 
     </LinearLayout>
 </ScrollView>

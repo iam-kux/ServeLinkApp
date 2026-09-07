@@ -33,26 +33,47 @@ android {
 }
 
 dependencies {
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
+    // AndroidX Core
     implementation libs.appcompat
     implementation libs.material
     implementation libs.constraintlayout
     implementation libs.recyclerview
+    implementation libs.cardview
+    implementation libs.viewpager2
+    implementation libs.swiperefreshlayout
 
     // Navigation
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
 
+    // Lifecycle (MVVM)
+    implementation libs.lifecycle.viewmodel
+    implementation libs.lifecycle.livedata
+
     // Firebase
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.auth
-    implementation libs.firebase.firestore
     implementation libs.firebase.database
     implementation libs.firebase.storage
     implementation libs.firebase.messaging
 
-    // Third-party
-    implementation libs.glide
+    // Google Services
+    implementation libs.google.signin
+    implementation libs.play.services.maps
+    implementation libs.play.services.location
+    implementation libs.play.services.places
+
+    // Image Loading
+    implementation libs.picasso
+
+    // UI
+    implementation libs.shimmer
     implementation libs.lottie
+    implementation libs.circleimageview
+    implementation libs.gms.play.services.maps
 
     // Testing
     testImplementation libs.junit

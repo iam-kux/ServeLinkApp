@@ -5,23 +5,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.button.MaterialButton;
 import com.splinesoft.servelinkapp.R;
 import com.splinesoft.servelinkapp.models.Booking;
 import com.splinesoft.servelinkapp.utils.Constants;
+
 import java.util.List;
 
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingViewHolder> {
 
-    private List<Booking> bookingList;
-    private boolean isProvider;
-    private OnBookingActionListener listener;
+    private final List<Booking> bookingList;
+    private final boolean isProvider;
+    private final OnBookingActionListener listener;
 
     public interface OnBookingActionListener {
         void onAccept(Booking booking);
         void onDecline(Booking booking);
+        void onItemClick(Booking booking);
     }
 
     public BookingAdapter(List<Booking> bookingList, boolean isProvider, OnBookingActionListener listener) {
@@ -41,16 +45,33 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
     public void onBindViewHolder(@NonNull BookingViewHolder holder, int position) {
         Booking booking = bookingList.get(position);
 
-        holder.tvServiceTitle.setText("Service: " + booking.getServiceId());
-        holder.tvClientName.setText(isProvider ? "Client ID: " + booking.getClientId() : "Provider ID: " + booking.getProviderId());
+        holder.tvServiceTitle.setText(booking.getServiceTitle() != null ? booking.getServiceTitle() : "On-Demand Service");
+        holder.tvClientName.setText(isProvider 
+                ? "Client: " + (booking.getClientName() != null ? booking.getClientName() : "User")
+                : "Provider: " + (booking.getProviderName() != null ? booking.getProviderName() : "Freelancer"));
+        
         holder.tvDate.setText("Date: " + booking.getDate());
         holder.tvTime.setText("Time: " + booking.getTime());
-        holder.tvStatus.setText(booking.getStatus());
+        holder.tvStatus.setText(booking.getStatus().toUpperCase());
 
-        if (isProvider && Constants.STATUS_PENDING.equals(booking.getStatus())) {
-            holder.layoutActionButtons.setVisibility(View.VISIBLE);
+        // Highlight status colors
+        String status = booking.getStatus().toLowerCase();
+        if (Constants.BOOKING_STATUS_PENDING.equals(status)) {
+            holder.tvStatus.setTextColor(holder.itemView.getContext().getColor(android.R.color.holo_orange_dark));
+            if (isProvider) {
+                holder.layoutActionButtons.setVisibility(View.VISIBLE);
+            } else {
+                holder.layoutActionButtons.setVisibility(View.GONE);
+            }
         } else {
             holder.layoutActionButtons.setVisibility(View.GONE);
+            if (Constants.BOOKING_STATUS_COMPLETED.equals(status)) {
+                holder.tvStatus.setTextColor(holder.itemView.getContext().getColor(android.R.color.holo_green_dark));
+            } else if (Constants.BOOKING_STATUS_CANCELLED.equals(status)) {
+                holder.tvStatus.setTextColor(holder.itemView.getContext().getColor(android.R.color.holo_red_dark));
+            } else {
+                holder.tvStatus.setTextColor(holder.itemView.getContext().getColor(android.R.color.holo_blue_dark));
+            }
         }
 
         holder.btnAccept.setOnClickListener(v -> {
@@ -59,6 +80,10 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
 
         holder.btnDecline.setOnClickListener(v -> {
             if (listener != null) listener.onDecline(booking);
+        });
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onItemClick(booking);
         });
     }
 

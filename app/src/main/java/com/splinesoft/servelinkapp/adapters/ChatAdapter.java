@@ -1,13 +1,22 @@
 package com.splinesoft.servelinkapp.adapters;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.splinesoft.servelinkapp.R;
 import com.splinesoft.servelinkapp.models.Message;
+import com.splinesoft.servelinkapp.utils.Constants;
+import com.splinesoft.servelinkapp.utils.DateTimeUtil;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -15,8 +24,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_SENT = 1;
     private static final int TYPE_RECEIVED = 2;
 
-    private List<Message> messageList;
-    private String currentUserId;
+    private final List<Message> messageList;
+    private final String currentUserId;
 
     public ChatAdapter(List<Message> messageList, String currentUserId) {
         this.messageList = messageList;
@@ -47,31 +56,82 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messageList.get(position);
+
         if (getItemViewType(position) == TYPE_SENT) {
-            ((SentMessageHolder) holder).tvMessage.setText(message.getMessage());
+            bindMessageHolder((SentMessageHolder) holder, message);
         } else {
-            ((ReceivedMessageHolder) holder).tvMessage.setText(message.getMessage());
+            bindMessageHolder((ReceivedMessageHolder) holder, message);
+        }
+    }
+
+    private void bindMessageHolder(MessageViewHolder holder, Message message) {
+        // Set timestamp
+        holder.tvTimestamp.setText(DateTimeUtil.formatChatTime(message.getTimestamp()));
+
+        // Check message type
+        if (Constants.MSG_TYPE_IMAGE.equals(message.getMessageType())) {
+            holder.tvMessage.setVisibility(View.GONE);
+            holder.imgMessage.setVisibility(View.VISIBLE);
+            if (message.getFileUrl() != null && !message.getFileUrl().isEmpty()) {
+                Picasso.get()
+                        .load(message.getFileUrl())
+                        .placeholder(R.drawable.baseline_camera_alt_24)
+                        .error(R.drawable.baseline_camera_alt_24)
+                        .into(holder.imgMessage);
+            }
+            // Allow image viewing
+            holder.imgMessage.setOnClickListener(v -> {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(message.getFileUrl()));
+                v.getContext().startActivity(intent);
+            });
+        } else if (Constants.MSG_TYPE_FILE.equals(message.getMessageType())) {
+            holder.imgMessage.setVisibility(View.GONE);
+            holder.tvMessage.setVisibility(View.VISIBLE);
+            holder.tvMessage.setText("Attachment: " + message.getFileName() + "\n(Tap to download)");
+            // Allow file downloading/opening
+            holder.tvMessage.setOnClickListener(v -> {
+                if (message.getFileUrl() != null && !message.getFileUrl().isEmpty()) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(message.getFileUrl()));
+                    v.getContext().startActivity(intent);
+                }
+            });
+        } else {
+            // Text message
+            holder.imgMessage.setVisibility(View.GONE);
+            holder.tvMessage.setVisibility(View.VISIBLE);
+            holder.tvMessage.setText(message.getMessage());
+            holder.tvMessage.setOnClickListener(null); // Clear click listener
         }
     }
 
     @Override
     public int getItemCount() {
-        return messageList.size();
+        return messageList != null ? messageList.size() : 0;
     }
 
-    static class SentMessageHolder extends RecyclerView.ViewHolder {
+    // Common Interface or base fields for ViewHolders
+    static class MessageViewHolder extends RecyclerView.ViewHolder {
         TextView tvMessage;
-        public SentMessageHolder(@NonNull View itemView) {
+        ImageView imgMessage;
+        TextView tvTimestamp;
+
+        public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
             tvMessage = itemView.findViewById(R.id.tvMessage);
+            imgMessage = itemView.findViewById(R.id.imgMessage);
+            tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
         }
     }
 
-    static class ReceivedMessageHolder extends RecyclerView.ViewHolder {
-        TextView tvMessage;
+    static class SentMessageHolder extends MessageViewHolder {
+        public SentMessageHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+    }
+
+    static class ReceivedMessageHolder extends MessageViewHolder {
         public ReceivedMessageHolder(@NonNull View itemView) {
             super(itemView);
-            tvMessage = itemView.findViewById(R.id.tvMessage);
         }
     }
 }

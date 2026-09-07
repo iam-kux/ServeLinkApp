@@ -7,22 +7,51 @@
     android:gravity="end"
     android:padding="8dp">
 
+    <!-- Sent Card Container -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="16dp"
+        app:cardCornerRadius="100dp"
         app:cardBackgroundColor="@color/black"
         app:cardElevation="0dp">
 
-        <TextView
-            android:id="@+id/tvMessage"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sent Message"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:padding="12dp" />
+            android:orientation="vertical">
+
+            <!-- Image Message View -->
+            <ImageView
+                android:id="@+id/imgMessage"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Sent image"
+                android:visibility="gone" />
+
+            <!-- Text Message View -->
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:text="Sent Message" />
+
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- Timestamp & Status -->
+    <TextView
+        android:id="@+id/tvTimestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:text="12:00 PM"
+        android:textColor="@color/text_color"
+        android:textSize="11sp" />
 
 </LinearLayout>

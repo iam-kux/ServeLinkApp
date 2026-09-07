@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.DataSnapshot;
 import com.splinesoft.servelinkapp.R;
 import com.splinesoft.servelinkapp.models.Service;
 import com.splinesoft.servelinkapp.utils.Constants;
@@ -64,11 +65,11 @@ public class ServiceDetailActivity extends AppCompatActivity {
     }
 
     private void loadServiceDetails() {
-        FirebaseHelper.getFirestore().collection(Constants.SERVICES_REF).document(serviceId)
+        FirebaseHelper.getInstance().getServiceRef(serviceId)
                 .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        Service service = documentSnapshot.toObject(Service.class);
+                .addOnSuccessListener(dataSnapshot -> {
+                    if (dataSnapshot.exists()) {
+                        Service service = dataSnapshot.getValue(Service.class);
                         if (service != null) {
                             providerId = service.getProviderId();
                             tvTitle.setText(service.getTitle());
@@ -82,7 +83,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
                             }
                         }
                     } else {
-                        // For dummy mock data if Firestore is empty
+                        // For dummy mock data if database is empty
                         tvTitle.setText("Service " + serviceId);
                         tvPrice.setText("$50");
                         tvDescription.setText("Sample Description.");
